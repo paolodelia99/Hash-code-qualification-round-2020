@@ -42,7 +42,7 @@ def create_books(books_scores):
 def main():
     """Main entry
     """
-    days, libraries = parse_data()
+    days, libraries = parse_data("a_example.txt")
     solve(days, libraries)
 
 
@@ -129,22 +129,23 @@ def create_books_list(books_id, books_score):
     return books
 
 
-def parse_data():
+def parse_data(file_to_read):
     """
         Parsing the input data
 
         Returns:
             tuple -- d: the number of days, libraries: the list containing the libraries objects
     """
-    b, l, d = map(int, input().split())  # number of different books, number of libraries, number of days
-    book_scores = list(map(int, input().split()))  # scores of the individual books
+    file = open("scenarios/{}".format(file_to_read))
+    b, l, d = map(int, file.readline().split())  # number of different books, number of libraries, number of days
+    book_scores = list(map(int, file.readline().split()))  # scores of the individual books
     books_obj = create_books(book_scores)  # from the books_scores create an array of books objects
     libraries = []
 
     # Get the libraries data
     for i in range(l):
-        n, t, m = map(int, input().split())
-        books_id = list(map(int, input().split()))  # the books id of the library
+        n, t, m = map(int, file.readline().split())
+        books_id = list(map(int, file.readline().split()))  # the books id of the library
         books = create_books_list(books_id, books_obj)  # create the library's books list
         libraries.append(Library(i, n, t, m, books))
 
