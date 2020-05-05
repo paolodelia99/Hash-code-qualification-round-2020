@@ -1,3 +1,8 @@
+import sys
+from pathlib import Path
+from scenarioParser import ScenarioParser
+
+
 class Library:
     """
     A class representing the library
@@ -42,11 +47,13 @@ def create_books(books_scores):
 def main():
     """Main entry
     """
-    days, libraries = parse_data("a_example.txt")
-    solve(days, libraries)
+    scenario_code_name = sys.argv[1]  # read scenario from the command line
+    scenario_parser = ScenarioParser(scenario_code_name)
+    days, libraries = scenario_parser.parse_hash_code_file()
+    solve(scenario_code_name, days, libraries)
 
 
-def solve(days, libraries):
+def solve(scenario, days, libraries):
     # sorting the libraries by the total score in descending order
     libraries.sort(key=lambda x: x.tot_score, reverse=True)
 
@@ -63,14 +70,7 @@ def solve(days, libraries):
         else:
             break
 
-    print_output(sign_up_lib, books_shipped)
-
-    tot_score = 0
-
-    for i in range(len(books_shipped)):
-        tot_score += sum(books_shipped[i])
-
-    print('the total score is {}'.format(tot_score))
+    write_solution(scenario, sign_up_lib, books_shipped)
 
 
 def get_best_books(lib, assigned_books, days, tot_sign_up):
@@ -99,14 +99,28 @@ def get_best_books(lib, assigned_books, days, tot_sign_up):
         return tuple(chosen_books[:time * lib.book_per_day])
 
 
-def print_output(sign_up, books_shipped):
-    # Print the outputs
-    print(len(sign_up))
+def write_solution(scenario, sign_up, books_shipped):
+    # Get the scenario name
+    scenario = scenario.split(".")
+    scenario = scenario[0]
+
+    file_name = f"{scenario}.solution.txt"
+    abs_path = Path().absolute()
+    file_path = f"{abs_path}/solved/{file_name}"
+
+    # check if the file already exists, if it does then delete it
+    my_file = Path(file_path)
+    if my_file.is_file():
+        my_file.unlink()
+
+    # Create a new file
+    file = open(file_path, "w")
+    file.write(str(len(sign_up)) + "\n")
     for i in range(len(sign_up)):
-        print("{} {}".format(sign_up[i].id, sign_up[i].no_books))
+        file.write("{} {} \n".format(sign_up[i].id, sign_up[i].no_books))
         for j in books_shipped[i]:  # printing the books
-            print(j, end=" ")
-        print()
+            file.write(str(j) + " ")
+        file.write("\n")
 
 
 def create_books_list(books_id, books_score):
