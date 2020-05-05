@@ -1,6 +1,6 @@
 import sys
 from pathlib import Path
-from scenarioParser import ScenarioParser
+import scenarioParser
 
 
 class Library:
@@ -27,28 +27,11 @@ class Book:
         self.score = score
 
 
-def create_books(books_scores):
-    """Create the array of Books objects
-
-    Arguments:
-        books {list} -- the list of books individual score 
-
-    Returns:
-        list -- The books list formed by books objects
-    """
-    books = []
-
-    for i in range(len(books_scores)):
-        books.append(Book(i, books_scores[i]))
-
-    return books
-
-
 def main():
     """Main entry
     """
     scenario_code_name = sys.argv[1]  # read scenario from the command line
-    scenario_parser = ScenarioParser(scenario_code_name)
+    scenario_parser = scenarioParser.ScenarioParser(scenario_code_name)
     days, libraries = scenario_parser.parse_hash_code_file()
     solve(scenario_code_name, days, libraries)
 
@@ -121,49 +104,6 @@ def write_solution(scenario, sign_up, books_shipped):
         for j in books_shipped[i]:  # printing the books
             file.write(str(j) + " ")
         file.write("\n")
-
-
-def create_books_list(books_id, books_score):
-    """Create the array of Books objects for the given library
-
-    Arguments:
-        books_id {list} -- the list of books of the library
-        books_score {list} --  the list of the books scores
-
-    Returns:
-        list -- The books list formed by books objects for the given library
-    """
-    books = []
-
-    for i in range(len(books_score)):
-        if books_score[i].id in books_id:
-            books.append(books_score[i])
-            books.sort(key=lambda x: x.score, reverse=True)  # sort the books in descending order
-
-    return books
-
-
-def parse_data(file_to_read):
-    """
-        Parsing the input data
-
-        Returns:
-            tuple -- d: the number of days, libraries: the list containing the libraries objects
-    """
-    file = open("scenarios/{}".format(file_to_read))
-    b, l, d = map(int, file.readline().split())  # number of different books, number of libraries, number of days
-    book_scores = list(map(int, file.readline().split()))  # scores of the individual books
-    books_obj = create_books(book_scores)  # from the books_scores create an array of books objects
-    libraries = []
-
-    # Get the libraries data
-    for i in range(l):
-        n, t, m = map(int, file.readline().split())
-        books_id = list(map(int, file.readline().split()))  # the books id of the library
-        books = create_books_list(books_id, books_obj)  # create the library's books list
-        libraries.append(Library(i, n, t, m, books))
-
-    return d, libraries
 
 
 if __name__ == "__main__":
