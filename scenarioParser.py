@@ -1,5 +1,6 @@
 from solver import Library
 from solver import Book
+import os
 
 
 class ScenarioParser:
@@ -17,15 +18,15 @@ class ScenarioParser:
         try:
             file = open("scenarios/{}".format(self.file_path))
             b, l, d = map(int,
-                          file.readline().split())  # number of different books, number of libraries, number of days
-            book_scores = list(map(int, file.readline().split()))  # scores of the individual books
+                          file.readline().strip().split(' '))  # number of different books, number of libraries, number of days
+            book_scores = list(map(str, file.readline().strip().split(' ')))  # scores of the individual books
             books_obj = self.create_books(book_scores)  # from the books_scores create an array of books objects
             libraries = []
 
             # Get the libraries data
             for i in range(l):
-                n, t, m = map(int, file.readline().split())
-                books_id = list(map(int, file.readline().split()))  # the books id of the library
+                n, t, m = map(int, file.readline().strip().split(' '))
+                books_id = list(map(str, file.readline().strip().split(' ')))  # the books id of the library
                 books = self.create_books_list(books_id, books_obj)  # create the library's books list
                 libraries.append(Library(i, n, t, m, books))
 
