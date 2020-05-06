@@ -1,1 +1,6 @@
+# Solutions
 solved/*.solved.txt
+# idea
+.idea
+# Virtual enviroment
+venv
