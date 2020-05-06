@@ -14,18 +14,25 @@ class ScenarioParser:
             Returns:
                 tuple -- d: the number of days, libraries: the list containing the libraries objects
         """
-        file = open("scenarios/{}".format(self.file_path))
-        b, l, d = map(int, file.readline().split())  # number of different books, number of libraries, number of days
-        book_scores = list(map(int, file.readline().split()))  # scores of the individual books
-        books_obj = self.create_books(book_scores)  # from the books_scores create an array of books objects
-        libraries = []
+        try:
+            file = open("scenarios/{}".format(self.file_path))
+            b, l, d = map(int,
+                          file.readline().split())  # number of different books, number of libraries, number of days
+            book_scores = list(map(int, file.readline().split()))  # scores of the individual books
+            books_obj = self.create_books(book_scores)  # from the books_scores create an array of books objects
+            libraries = []
 
-        # Get the libraries data
-        for i in range(l):
-            n, t, m = map(int, file.readline().split())
-            books_id = list(map(int, file.readline().split()))  # the books id of the library
-            books = self.create_books_list(books_id, books_obj)  # create the library's books list
-            libraries.append(Library(i, n, t, m, books))
+            # Get the libraries data
+            for i in range(l):
+                n, t, m = map(int, file.readline().split())
+                books_id = list(map(int, file.readline().split()))  # the books id of the library
+                books = self.create_books_list(books_id, books_obj)  # create the library's books list
+                libraries.append(Library(i, n, t, m, books))
+
+        except:
+            raise Exception("Didn't found the scenario file")
+        finally:
+            file.close()
 
         return d, libraries
 
