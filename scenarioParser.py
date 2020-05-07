@@ -1,5 +1,5 @@
-from solver import Library
-from solver import Book
+from library import Library
+from book import Book
 import os
 
 
@@ -15,27 +15,35 @@ class ScenarioParser:
             Returns:
                 tuple -- d: the number of days, libraries: the list containing the libraries objects
         """
-        try:
-            file = open("scenarios/{}".format(self.file_path))
-            b, l, d = map(int,
-                          file.readline().strip().split(' '))  # number of different books, number of libraries, number of days
-            book_scores = list(map(str, file.readline().strip().split(' ')))  # scores of the individual books
-            books_obj = self.create_books(book_scores)  # from the books_scores create an array of books objects
-            libraries = []
+        path = "scenarios/{}".format(self.file_path)
 
-            # Get the libraries data
-            for i in range(l):
-                n, t, m = map(int, file.readline().strip().split(' '))
-                books_id = list(map(str, file.readline().strip().split(' ')))  # the books id of the library
-                books = self.create_books_list(books_id, books_obj)  # create the library's books list
-                libraries.append(Library(i, n, t, m, books))
+        # Todo: check if the path exists
 
-        except:
-            raise Exception("Didn't found the scenario file")
-        finally:
-            file.close()
+        b, l, d = None, None, None
+        book_scores, books_obj = [], []
+        n, t, m = None, None, None
+        libraries = []
 
-        return d, libraries
+        with open(path) as fp:
+            cnt = 0
+            for i, line in enumerate(fp):
+                if line == '\n':
+                    continue
+
+                if i == 0:
+                    b, l, d = line.strip().split(' ')
+                elif i == 1:
+                    book_scores = list(line.strip().split(' '))
+                    books_obj = self.create_books(book_scores)  # from the books_scores create an array of books objects
+                elif i % 2 == 0:
+                    n, t, m = line.strip().split(' ')
+                else:
+                    lib_books = list(line.strip().split(' '))
+                    books = self.create_books_list(lib_books, books_obj)  # create the library's books list
+                    libraries.append(Library(cnt, int(n), int(t), int(m), books))
+                    cnt += 1
+
+        return int(d), libraries
 
     @staticmethod
     def create_books_list(books_id, books_score):
@@ -51,7 +59,7 @@ class ScenarioParser:
         books = []
 
         for i in range(len(books_score)):
-            if books_score[i].id in books_id:
+            if str(books_score[i].id) in books_id:
                 books.append(books_score[i])
                 books.sort(key=lambda x: x.score, reverse=True)  # sort the books in descending order
 
@@ -70,6 +78,6 @@ class ScenarioParser:
         books = []
 
         for i in range(len(books_scores)):
-            books.append(Book(i, books_scores[i]))
+            books.append(Book(i, int(books_scores[i])))
 
         return books
