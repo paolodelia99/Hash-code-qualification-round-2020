@@ -4,3 +4,5 @@ solved/*.solved.txt
 .idea
 # Virtual enviroment
 venv
+#Pycahce
+__pycache__

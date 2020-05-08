@@ -1,15 +1,18 @@
 import sys
 from pathlib import Path
-import scenarioParser
+from parsers import scenarioParser
 
 
 def main():
     """Main entry
     """
-    scenario_code_name = sys.argv[1]  # read scenario from the command line
-    scenario_parser = scenarioParser.ScenarioParser(scenario_code_name)
-    days, libraries = scenario_parser.parse_hash_code_file()
-    solve(scenario_code_name, days, libraries)
+    try:
+        scenario_code_name = sys.argv[1]  # read scenario from the command line
+        scenario_parser = scenarioParser.ScenarioParser(scenario_code_name)
+        days, books, libraries = scenario_parser.parse_hash_code_file()
+        solve(scenario_code_name, days, libraries)
+    except Exception as exc:
+        print(exc)
 
 
 def solve(scenario, days, libraries):

@@ -1,6 +1,6 @@
 from library import Library
 from book import Book
-import os
+import os.path
 
 
 class ScenarioParser:
@@ -17,7 +17,9 @@ class ScenarioParser:
         """
         path = "scenarios/{}".format(self.file_path)
 
-        # Todo: check if the path exists
+        # Check if the path exists
+        if not os.path.isfile(path):
+            raise Exception('Didn\'t found the file: {}'.format(path))
 
         b, l, d = None, None, None
         book_scores, books_obj = [], []
@@ -43,7 +45,7 @@ class ScenarioParser:
                     libraries.append(Library(cnt, int(n), int(t), int(m), books))
                     cnt += 1
 
-        return int(d), libraries
+        return int(d), books_obj, libraries
 
     @staticmethod
     def create_books_list(books_id, books_score):
