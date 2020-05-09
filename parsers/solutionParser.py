@@ -9,7 +9,12 @@ class SolutionParser:
         self.libraries = libraries
         self.books = books
 
-    def compute_tot_score(self, assigned_book):
+    def compute_tot_score(self, assigned_book: list) -> int:
+        """
+
+        @param assigned_book: books assigned in the solution
+        @return: the total score of the solution
+        """
         # Compute the total score
         books_assigned = set(assigned_book)
         total_score = 0
@@ -20,7 +25,13 @@ class SolutionParser:
 
         return total_score
 
+    # FIxme: more clean the code
+
     def parse_solution_file(self):
+        """
+        Parse the solution, checking for errors
+        @return: the total score of the solution
+        """
         path = "solved/{}.solution.txt".format(self.file_path)
 
         if not os.path.isfile(path):
@@ -54,10 +65,10 @@ class SolutionParser:
                         if book not in chosen_lib.get_books_ids():
                             raise Exception('Scanned a book that doesn\'t belong to the chosen library')
 
-                    assigned_books += (books_ids) # add the assigned books to the tot books assigned
+                    assigned_books += (books_ids)  # add the assigned books to the tot books assigned
                 else:
 
-                    library_id, no_books = map(int ,line.strip().split(' '))
+                    library_id, no_books = map(int, line.strip().split(' '))
 
                     if library_id > len(self.libraries):
                         raise Exception('This library doesn\'t exists!')
@@ -67,7 +78,7 @@ class SolutionParser:
                     if no_books > chosen_lib.no_books:
                         raise Exception('You\'ve exceeded the max number of books of the library')
 
-                    no_libraries += 1 # increment the number of chosen libraries
+                    no_libraries += 1  # increment the number of chosen libraries
                     tot_sign_up += chosen_lib.sign_up_time
 
         # Control if the tot_sign_up time don't exceed the number of days

@@ -3,10 +3,14 @@ from parsers.scenarioParser import ScenarioParser
 from parsers.solutionParser import SolutionParser
 
 
-# TODO read scenario and solution from command line arguments. Verify and compute score
+def check_solution_validity(days:int, libraries:list, books:list) -> int:
+    """
 
-
-def check_solution_validity(days, libraries, books):
+    @param days: the day for the sign up process
+    @param libraries: the libraries of the scenario
+    @param books: the books of the scenario
+    @return: the total score of the solution
+    """
     try:
         sol_parser = SolutionParser(file, days, libraries, books)
         tot_score = sol_parser.parse_solution_file()
@@ -18,11 +22,10 @@ def check_solution_validity(days, libraries, books):
 
 """Main function begins"""
 cmd = sys.argv[1:]
-if False:
-    assert cmd, "There should be at least one argument"
+assert cmd, "There should be at least one argument"
 
 try:
-    file = "a_example"
+    file = cmd[0]
     parser = ScenarioParser(file)
     days, books, libraries = parser.parse_hash_code_file()
     max_score = sum([book.score for book in books])

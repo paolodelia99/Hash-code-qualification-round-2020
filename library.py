@@ -12,4 +12,8 @@ class Library:
         self.tot_score = sum([book.score for book in books])  # total score of the books of the library
 
     def get_books_ids(self):
+        """
+
+        @return: return a list containing the books ids
+        """
         return [int(book.id) for book in self.books]

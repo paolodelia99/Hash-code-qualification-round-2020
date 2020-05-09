@@ -8,12 +8,11 @@ class ScenarioParser:
     def __init__(self, file_path):
         self.file_path = file_path
 
-    def parse_hash_code_file(self):
+    def parse_hash_code_file(self)->tuple:
         """
-            Parsing the input data
+        Parsing the input data
 
-            Returns:
-                tuple -- d: the number of days, libraries: the list containing the libraries objects
+        @return: tuple -- d: the number of days, libraries: the list containing the libraries objects
         """
         path = "scenarios/{}.txt".format(self.file_path)
 
@@ -48,15 +47,12 @@ class ScenarioParser:
         return int(d), books_obj, libraries
 
     @staticmethod
-    def create_books_list(books_id, books_score):
-        """Create the array of Books objects for the given library
-
-        Arguments:
-            books_id {list} -- the list of books of the library
-            books_score {list} --  the list of the books scores
-
-        Returns:
-            list -- The books list formed by books objects for the given library
+    def create_books_list(books_id: list, books_score: list) -> list:
+        """
+        Create the array of Books objects for the given library
+        @param books_id: the list of books of the library
+        @param books_score: the list of the books scores
+        @return: The books list formed by books objects for the given library
         """
         books = []
 
@@ -68,14 +64,11 @@ class ScenarioParser:
         return books
 
     @staticmethod
-    def create_books(books_scores):
-        """Create the array of Books objects
-
-        Arguments:
-            books {list} -- the list of books individual score
-
-        Returns:
-            list -- The books list formed by books objects
+    def create_books(books_scores: list) -> list:
+        """
+        Create the array of Books objects
+        @param books_scores: the list of books individual score
+        @return: The books list formed by books objects
         """
         books = []
 
