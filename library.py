@@ -10,3 +10,6 @@ class Library:
         self.book_per_day = book_per_day
         self.books = books
         self.tot_score = sum([book.score for book in books])  # total score of the books of the library
+
+    def get_books_ids(self):
+        return [int(book.id) for book in self.books]

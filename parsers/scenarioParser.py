@@ -15,7 +15,7 @@ class ScenarioParser:
             Returns:
                 tuple -- d: the number of days, libraries: the list containing the libraries objects
         """
-        path = "scenarios/{}".format(self.file_path)
+        path = "scenarios/{}.txt".format(self.file_path)
 
         # Check if the path exists
         if not os.path.isfile(path):
