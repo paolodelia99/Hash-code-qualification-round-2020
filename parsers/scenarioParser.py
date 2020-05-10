@@ -5,16 +5,16 @@ import os.path
 
 class ScenarioParser:
 
-    def __init__(self, file_path):
-        self.file_path = file_path
+    def __init__(self, file_name):
+        self.file_name = file_name
 
-    def parse_hash_code_file(self)->tuple:
+    def parse_hash_code_file(self) -> tuple:
         """
         Parsing the input data
 
         @return: tuple -- d: the number of days, libraries: the list containing the libraries objects
         """
-        path = "scenarios/{}.txt".format(self.file_path)
+        path = "scenarios/{}.txt".format(self.file_name)
 
         # Check if the path exists
         if not os.path.isfile(path):

@@ -7,10 +7,10 @@ def main():
     """Main entry
     """
     try:
-        scenario_code_name = sys.argv[1]  # read scenario from the command line
-        scenario_parser = scenarioParser.ScenarioParser(scenario_code_name)
+        scenario_name = sys.argv[1]  # read scenario from the command line
+        scenario_parser = scenarioParser.ScenarioParser(scenario_name)
         days, books, libraries = scenario_parser.parse_hash_code_file()
-        solve(scenario_code_name, days, libraries)
+        solve(scenario_name, days, libraries)
     except Exception as exc:
         print(exc)
 

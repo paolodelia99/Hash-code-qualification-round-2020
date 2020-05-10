@@ -17,3 +17,16 @@ class Library:
         @return: return a list containing the books ids
         """
         return [int(book.id) for book in self.books]
+
+    def __eq__(self, other):
+        if other is None:
+            return False
+
+        if other is self:
+            return True
+
+        if other.id == self.id and other.no_books and other.sign_up_time == self.sign_up_time and other.book_per_day == self.book_per_day and [
+            a == b for a, b in zip(self.books, other.books)]:
+            return True
+        else:
+            return False

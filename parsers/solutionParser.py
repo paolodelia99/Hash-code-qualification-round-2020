@@ -3,8 +3,8 @@ import os.path
 
 class SolutionParser:
 
-    def __init__(self, file_path: str, days: int, libraries: list, books: list):
-        self.file_path = file_path
+    def __init__(self, file_name: str, days: int, libraries: list, books: list):
+        self.file_name = file_name
         self.days = days
         self.libraries = libraries
         self.books = books
@@ -25,14 +25,12 @@ class SolutionParser:
 
         return total_score
 
-    # FIxme: more clean the code
-
     def parse_solution_file(self):
         """
         Parse the solution, checking for errors
         @return: the total score of the solution
         """
-        path = "solved/{}.solution.txt".format(self.file_path)
+        path = "solved/{}.solution.txt".format(self.file_name)
 
         if not os.path.isfile(path):
             raise Exception('Didn\'t found the file: {}'.format(path))
@@ -53,7 +51,7 @@ class SolutionParser:
                     if no_libraries > len(self.libraries):
                         raise Exception('You can\'t sign up more libraries that those available')
 
-                elif i % 2 == 0:
+                elif i % 2 == 0:  # get the scanned books of the library
 
                     books_ids = list(map(int, line.strip().split(' ')))
 
@@ -65,8 +63,8 @@ class SolutionParser:
                         if book not in chosen_lib.get_books_ids():
                             raise Exception('Scanned a book that doesn\'t belong to the chosen library')
 
-                    assigned_books += (books_ids)  # add the assigned books to the tot books assigned
-                else:
+                    assigned_books += books_ids  # add the assigned books to the tot books assigned
+                else:  # get the library
 
                     library_id, no_books = map(int, line.strip().split(' '))
 
